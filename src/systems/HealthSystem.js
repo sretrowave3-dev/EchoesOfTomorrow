@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { System } from '../System.js';
 import { EntitySignature } from '../EntitySignature.js';
 
@@ -27,4 +28,35 @@ export class HealthSystem extends System {
       }
     }
   }
+=======
+import { System } from '../System.js';
+import { EntitySignature } from '../EntitySignature.js';
+
+export class HealthSystem extends System {
+  constructor() {
+    super();
+    this.priority = 200;
+    this._requiredSig = new EntitySignature();
+    this._healthId = -1;
+  }
+
+  initialize(ecs) {
+    this._healthId = ecs.getTypeId('Health');
+    this._requiredSig.add(this._healthId);
+  }
+
+  requiredSignature() {
+    return this._requiredSig;
+  }
+
+  update(delta, entityIds, ecs) {
+    const healthStore = ecs.getStore('Health');
+    for (const eid of entityIds) {
+      const health = healthStore.get(eid);
+      if (health && health.current <= 0) {
+        // TODO: trigger death sequence
+      }
+    }
+  }
+>>>>>>> 2f42efe7e19574d94df56c89784f42d3d4e2c85a
 }
